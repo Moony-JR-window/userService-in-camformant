@@ -1,5 +1,5 @@
 import { AdminUpdateUserAttributesCommand,SignUpCommand } from "@aws-sdk/client-cognito-identity-provider";
-import { typeLogin, typeSigup, typeUsers, typeVerification } from "../model/user-type";
+import { typeSigup, typeUsers, typeVerification } from "../model/user-type";
 import configs from "../config";
 import { UserRepo } from "../user-repositery/users-Repo";
 import { awsCognito, awsCreateConfirmSigup, awsGetData, awsRole, awsSecretHast, deleteFileS3, s3Bucket, s3command } from "../AWS Service/aws";
@@ -82,19 +82,21 @@ export class userService {
         }
     }
 
-    public async loginUser(user: typeLogin): Promise<typeLogin|null> {
+    public async loginUser(user: any): Promise<{idUser: any}|null> {
 
         try {
             console.log("service is ",user);
             if(!user){
                 return null
             }
+            
             if (!user || !user.email || !user.password) {
                 console.log("Error not logged");
                 
                 throw new Error("Missing email or password");
             }
-            return user
+            const userData=await this.userRepo.LoginUser(user)
+            return userData;
         } catch (error) {
             throw new Error("Error")
         }

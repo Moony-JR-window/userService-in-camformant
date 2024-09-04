@@ -320,11 +320,13 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"allOf": [
-										{
-											"$ref": "#/components/schemas/typeLogin"
-										}
+									"properties": {
+										"idUser": {}
+									},
+									"required": [
+										"idUser"
 									],
+									"type": "object",
 									"nullable": true
 								}
 							}

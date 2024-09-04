@@ -1,9 +1,10 @@
 // src/services/userService.ts
 
+
 import { educational } from "../model/edu";
 import { experience } from "../model/exp";
 import { reference } from "../model/reference";
-import { PutUser, typeUsers } from "../model/user-type";
+import { PutUser, typeLogin, typeUsers } from "../model/user-type";
 import User, { CVs, Educational, Experience, Photo, Reference } from "../model/users-model";
 
 
@@ -74,6 +75,26 @@ export class UserRepo {
     }
 
 
+    public async LoginUser(user:typeLogin):Promise<{idUser: any}|null> {
+
+        try {
+            if(!user) {
+                return null
+            }
+            const userData = await User.findOne({email:user.email})
+            if (!userData) {
+                return null
+            }
+            if(!userData._id){
+                return null
+            }
+
+            return { idUser: userData._id }
+        } catch (error) {
+            throw new Error("Error")
+        }
+
+    }
 
 
     public async Experience(id: string, data: experience): Promise<any> {

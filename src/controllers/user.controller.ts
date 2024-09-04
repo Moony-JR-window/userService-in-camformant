@@ -51,13 +51,18 @@ export class UserController extends Controller {
     public async loginUser(
         @Body() data: typeLogin,
         @Request() request: ExpressRequest
-    ): Promise<typeLogin|null> {
+    ): Promise<{idUser:any}|null> {
         try {
             const user= await this.user.loginUser(data)
             // Extract the response object from the request
             console.log(user);
+            if(!user?.idUser){
+                console.log("Error not logged");
+                return null;
+            }
+            console.log("ID user controller",user?.idUser);
             
-            const idToken = request.cookies ? request.cookies['id_token'] : undefined;
+            const idToken = request.cookies['id_token']
             console.log('ID token from cookies:', idToken);
     
             if (idToken) {
@@ -65,20 +70,20 @@ export class UserController extends Controller {
                     console.log("Verifying ID token...");
                     const payload = JWT_Verify().verify(idToken); // Assuming `jwtVerifier` is properly initialized
                     console.log("Token verified successfully:", payload);
-                    return user;
+                    return user
                 } catch (error) {
                     console.log('Token verification failed, re-authenticating...');
                 }
             }
             if(!user){ return null;}
             const response = request.res as ExpressResponse;
-            const secret= awsSecretHast(user.email)
+            const secret= awsSecretHast(data.email)
             const command = new InitiateAuthCommand({
                 AuthFlow: 'USER_PASSWORD_AUTH',
                 ClientId: configs.clientID,
                 AuthParameters: {
-                    USERNAME: user.email,
-                    PASSWORD: user.password,
+                    USERNAME: data.email,
+                    PASSWORD: data.password,
                     SECRET_HASH: secret
                 }
             });
@@ -97,6 +102,8 @@ export class UserController extends Controller {
             response.cookie('id_token', IdToken, { httpOnly: true, secure: true });
             response.cookie('access_token', AccessToken, { httpOnly: true, secure: true });
             response.cookie('refresh_token', RefreshToken, { httpOnly: true, secure: true });
+
+            response.cookie('user_id', user.idUser.toString(), { httpOnly: true, secure: true });
             return user
 
         } catch (err) {

@@ -5,7 +5,7 @@ import path from 'path'
 import { RegisterRoutes } from './routes/v1/routes';
 import cors from 'cors';
 // import loger from './middlewares/loger';
-// import cookieParser from 'cookie-parser';
+import cookieParser from 'cookie-parser';
 // Dynamically load swagger.json
 const swaggerDocument = JSON.parse(fs.readFileSync(path.join(__dirname, 'docs/swagger.json'), 'utf8'));
 
@@ -14,7 +14,7 @@ const swaggerDocument = JSON.parse(fs.readFileSync(path.join(__dirname, 'docs/sw
 // ========================
 const app = express();
 
-// app.use(cookieParser());
+app.use(cookieParser());
 
 const corsOptions = {
     origin: '*', // Allow only this origin
