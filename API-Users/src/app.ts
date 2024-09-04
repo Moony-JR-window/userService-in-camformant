@@ -6,6 +6,7 @@ import { RegisterRoutes } from './routes/v1/routes';
 import cors from 'cors';
 // import loger from './middlewares/loger';
 import cookieParser from 'cookie-parser';
+import { CheckPromistion } from './middleware/check-req';
 // Dynamically load swagger.json
 const swaggerDocument = JSON.parse(fs.readFileSync(path.join(__dirname, 'docs/swagger.json'), 'utf8'));
 
@@ -13,6 +14,8 @@ const swaggerDocument = JSON.parse(fs.readFileSync(path.join(__dirname, 'docs/sw
 // Initialize App Express
 // ========================
 const app = express();
+
+
 
 app.use(cookieParser());
 
@@ -27,8 +30,10 @@ const corsOptions = {
   // };
   // app.use(cors(corsOptions1));
   // Use CORS middleware with options
+ app.use(CheckPromistion)  
+
   app.use(cors(corsOptions));
-  
+
 
 // ========================
 // Global Middleware
