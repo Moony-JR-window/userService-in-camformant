@@ -12,17 +12,20 @@ export class GetUserRepo {
 
         try {
             // Retrieve user data from database or API
+            console.log("Repo",id);
+            
             const data = await User.findById(id)
+            console.log(data);
+            
             // console.log(data?.username);
             const getPhoto = await Photo.findOne({ userId: id })
             if (!data) {
-                return null;  // User not found in the database or API
+              return { username:"", pf: ""}
             }
             if (!getPhoto) {
-                return null;  // Photo not found for the user in the database or API
+              return { username: data.username, pf: ""}// Photo not found for the user in the database or API
             }
-
-            return { username: data.username, pf: getPhoto?.photo }
+            return { username: data.username, pf: getPhoto.photo }
         } catch (error) {
             throw new Error('Failed to retrieve user data');
         }

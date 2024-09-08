@@ -4,10 +4,12 @@ import fs from 'fs';
 import path from 'path'
 import { RegisterRoutes } from './routes/v1/routes';
 import cors from 'cors';
-// import loger from './middlewares/loger';
 import cookieParser from 'cookie-parser';
 import { CheckPromistion } from './middleware/check-req';
-// Dynamically load swagger.json
+
+
+
+
 const swaggerDocument = JSON.parse(fs.readFileSync(path.join(__dirname, 'docs/swagger.json'), 'utf8'));
 
 // ========================
@@ -20,19 +22,23 @@ const app = express();
 app.use(cookieParser());
 
 const corsOptions = {
-    origin: '*', // Allow only this origin
+    origin: true,// Allow only this origin
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: 'Content-Type, Authorization'
+    allowedHeaders: 'Content-Type, Authorization',
+    credentials: true,
   };
-  // const corsOptions1 = {
-  //   origin: 'http://172.20.10.5:3000',
-  //   credentials: true,
-  // };
-  // app.use(cors(corsOptions1));
-  // Use CORS middleware with options
- app.use(CheckPromistion)  
+  const corsOptions1 = {
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type, Authorization',
+    credentials: true,
+  };
+
+  app.use(cors(corsOptions1));
 
   app.use(cors(corsOptions));
+
+ app.use(CheckPromistion)  
 
 
 // ========================

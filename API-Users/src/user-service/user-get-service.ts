@@ -14,11 +14,12 @@ export class GetUserService extends GetUserRepo {
             // Fetch user data using the repository
             const user = await this.userRepo.getUser(id);
 
+            
             // Check if the user exists and return the username if available
             if (user) {
                 return { username: user.username,pf:user.pf };
             }
-
+            console.log("Service",id);
             // Return null if the user does not exist
             return null;
         } catch (error) {

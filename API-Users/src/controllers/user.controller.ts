@@ -6,7 +6,7 @@ import { experience } from '../model/exp';
 import { reference } from '../model/reference';
 import { InitiateAuthCommand } from '@aws-sdk/client-cognito-identity-provider';
 import configs from '../config';
-import { awsCognito, awsSecretHast, JWT_Verify} from '../AWS Service/aws';
+import { awsCognito, awsSecretHast} from '../AWS Service/aws';
 import { Request as ExpressRequest, Response as ExpressResponse } from 'express';
 
 
@@ -16,7 +16,7 @@ import { Request as ExpressRequest, Response as ExpressResponse } from 'express'
 
 // https://v1/user/auth/callback
 
-@Route("/v1/users")
+@Route("/v1/user")
 export class UserController extends Controller {
     private user = new userService()
     @Get("/hello/jest")
@@ -58,23 +58,10 @@ export class UserController extends Controller {
             console.log(user);
             if(!user?.idUser){
                 console.log("Error not logged");
-                return null;
             }
             console.log("ID user controller",user?.idUser);
             
-            const idToken = request.cookies['id_token']
-            console.log('ID token from cookies:', idToken);
-    
-            if (idToken) {
-                try {
-                    console.log("Verifying ID token...");
-                    const payload = JWT_Verify().verify(idToken); // Assuming `jwtVerifier` is properly initialized
-                    console.log("Token verified successfully:", payload);
-                    return user
-                } catch (error) {
-                    console.log('Token verification failed, re-authenticating...');
-                }
-            }
+
             if(!user){ return null;}
             const response = request.res as ExpressResponse;
             const secret= awsSecretHast(data.email)
@@ -99,9 +86,9 @@ export class UserController extends Controller {
             const { IdToken, AccessToken, RefreshToken } = authResponse.AuthenticationResult;
 
             // Set tokens as HTTP-only cookies
-            response.cookie('id_token', IdToken, { httpOnly: true, secure: true });
-            response.cookie('access_token', AccessToken, { httpOnly: true, secure: true });
-            response.cookie('refresh_token', RefreshToken, { httpOnly: true, secure: true });
+            response.cookie('id_token', IdToken, { httpOnly: true, secure: true, sameSite:'none' });
+            response.cookie('access_token', AccessToken, { httpOnly: true, secure: true,sameSite:'none' });
+            response.cookie('refresh_token', RefreshToken, { httpOnly: true, secure: true,sameSite:'none' });
 
             response.cookie('user_id', user.idUser.toString(), { httpOnly: true, secure: true });
             return user
@@ -150,7 +137,7 @@ export class UserController extends Controller {
             
         }
     }
-    @Put('/experience/{id}')
+    @Put('/experince/{id}')
     public async Experience(
         @Body() data: experience,
         @Patch('id') id: string,
@@ -163,6 +150,7 @@ export class UserController extends Controller {
             return updateExp;
         } catch (error) {
             throw new Error("Error")
+            
         }
 
     }
@@ -211,6 +199,7 @@ export class UserController extends Controller {
     public async UpdatePhoto(
         @UploadedFile() photo: Express.Multer.File,
         @Patch('id') id: string,
+        
     ): Promise<any>{
         try {
             const file_path=await this.user.UploadPhoto(id,photo)

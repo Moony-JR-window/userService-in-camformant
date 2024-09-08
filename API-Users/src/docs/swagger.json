@@ -238,7 +238,7 @@
 		"contact": {}
 	},
 	"paths": {
-		"/v1/users/hello/jest": {
+		"/v1/user/hello/jest": {
 			"get": {
 				"operationId": "HelloJest",
 				"responses": {
@@ -257,7 +257,7 @@
 				"parameters": []
 			}
 		},
-		"/v1/users": {
+		"/v1/user": {
 			"post": {
 				"operationId": "PostUser",
 				"responses": {
@@ -284,7 +284,7 @@
 				}
 			}
 		},
-		"/v1/users/verify": {
+		"/v1/user/verify": {
 			"post": {
 				"operationId": "VerifyUser",
 				"responses": {
@@ -311,7 +311,7 @@
 				}
 			}
 		},
-		"/v1/users/login": {
+		"/v1/user/login": {
 			"post": {
 				"operationId": "LoginUser",
 				"responses": {
@@ -347,7 +347,7 @@
 				}
 			}
 		},
-		"/v1/users/{id}": {
+		"/v1/user/{id}": {
 			"put": {
 				"operationId": "UpdataInformation",
 				"responses": {
@@ -388,9 +388,51 @@
 						}
 					}
 				}
+			},
+			"get": {
+				"operationId": "GetUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"pf": {
+											"type": "string"
+										},
+										"username": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"pf",
+										"username"
+									],
+									"type": "object",
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"GetUser"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		},
-		"/v1/users/education/{id}": {
+		"/v1/user/education/{id}": {
 			"put": {
 				"operationId": "Educational",
 				"responses": {
@@ -424,9 +466,43 @@
 						}
 					}
 				}
+			},
+			"get": {
+				"operationId": "GetEducation",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/educational"
+										}
+									],
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"GetUser"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		},
-		"/v1/users/experience/{id}": {
+		"/v1/user/experince/{id}": {
 			"put": {
 				"operationId": "Experience",
 				"responses": {
@@ -467,9 +543,43 @@
 						}
 					}
 				}
+			},
+			"get": {
+				"operationId": "GetExp",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/experience"
+										}
+									],
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"GetUser"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		},
-		"/v1/users/reference/{id}": {
+		"/v1/user/reference/{id}": {
 			"put": {
 				"operationId": "Reference",
 				"responses": {
@@ -510,9 +620,43 @@
 						}
 					}
 				}
+			},
+			"get": {
+				"operationId": "GetReference",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/reference"
+										}
+									],
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"GetUser"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		},
-		"/v1/users/cv/{id}": {
+		"/v1/user/cv/{id}": {
 			"put": {
 				"operationId": "UpdateCv",
 				"responses": {
@@ -555,9 +699,27 @@
 						}
 					}
 				}
+			},
+			"get": {
+				"operationId": "GetCvs",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"GetUser"
+				],
+				"security": [],
+				"parameters": []
 			}
 		},
-		"/v1/users/cv/{id}/{index}": {
+		"/v1/user/cv/{id}/{index}": {
 			"delete": {
 				"operationId": "DeleteCv",
 				"responses": {
@@ -594,7 +756,7 @@
 				]
 			}
 		},
-		"/v1/users/photo/{id}": {
+		"/v1/user/photo/{id}": {
 			"post": {
 				"operationId": "UpdatePhoto",
 				"responses": {
@@ -637,50 +799,6 @@
 						}
 					}
 				}
-			}
-		},
-		"/v1/user/{id}": {
-			"get": {
-				"operationId": "GetUser",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"pf": {
-											"type": "string"
-										},
-										"username": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"pf",
-										"username"
-									],
-									"type": "object",
-									"nullable": true
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"GetUser"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
 			}
 		},
 		"/v1/user/pfComplete/{id}": {
@@ -755,117 +873,9 @@
 				]
 			}
 		},
-		"/v1/user/experince/{id}": {
+		"/generate/token": {
 			"get": {
-				"operationId": "GetExp",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"allOf": [
-										{
-											"$ref": "#/components/schemas/experience"
-										}
-									],
-									"nullable": true
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"GetUser"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			}
-		},
-		"/v1/user/education/{id}": {
-			"get": {
-				"operationId": "GetEducation",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"allOf": [
-										{
-											"$ref": "#/components/schemas/educational"
-										}
-									],
-									"nullable": true
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"GetUser"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			}
-		},
-		"/v1/user/reference/{id}": {
-			"get": {
-				"operationId": "GetReference",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"allOf": [
-										{
-											"$ref": "#/components/schemas/reference"
-										}
-									],
-									"nullable": true
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"GetUser"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			}
-		},
-		"/v1/user/cv/{id}": {
-			"get": {
-				"operationId": "GetCvs",
+				"operationId": "GenerateToken",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -877,7 +887,7 @@
 					}
 				},
 				"tags": [
-					"GetUser"
+					"generate token"
 				],
 				"security": [],
 				"parameters": []

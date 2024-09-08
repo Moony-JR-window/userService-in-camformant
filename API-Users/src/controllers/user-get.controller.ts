@@ -17,13 +17,15 @@ export class UserGetController extends Controller {
         @Patch("id") id: string
     ): Promise<{ username: string, pf: string } | null> {
         try {
-            const user = await this.userService.getUser(id);
-            console.log("Controler", user);
+            console.log(id);
+            
+            const user = await this.userService.getUser(id);            
+            console.log("Controler", user?.pf, user?.username);
 
-            if (user) {
-                return { username: user.username, pf: user.pf };
+            if (!user) {
+                return null
             }
-            return null;
+            return user
         } catch (error) {
             console.error('Error retrieving user:', error);
             throw new Error('Failed to retrieve user');
