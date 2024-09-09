@@ -873,6 +873,32 @@
 				]
 			}
 		},
+		"/v1/user/apply/{id}": {
+			"post": {
+				"operationId": "ApplyJob",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
 		"/generate/token": {
 			"get": {
 				"operationId": "GenerateToken",

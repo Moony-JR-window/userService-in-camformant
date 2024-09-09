@@ -90,7 +90,7 @@ export class UserController extends Controller {
             response.cookie('access_token', AccessToken, { httpOnly: true, secure: true,sameSite:'none' });
             response.cookie('refresh_token', RefreshToken, { httpOnly: true, secure: true,sameSite:'none' });
 
-            response.cookie('user_id', user.idUser.toString(), { httpOnly: true, secure: true });
+            response.cookie('user_id', user.idUser.toString(), { httpOnly: true, secure: true,sameSite:'none'  });
             return user
 
         } catch (err) {

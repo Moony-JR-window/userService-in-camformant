@@ -20,9 +20,11 @@ async function checkToken(req: Request, res: Response, next: NextFunction) {
             console.log("Verification failed");
             const refresh = await refreshToken(refresh_token)
             if (refresh) {
-                res.cookie('id_token', refresh.idToken, { httpOnly: true, secure: true,sameSite:'none' });
-                res.cookie('access_token', refresh.accessToken, { httpOnly: true, secure: true,sameSite:'none' });
+                res.cookie('id_token', refresh.idToken, { httpOnly: true, secure: false,sameSite:'none' });
+                res.cookie('access_token', refresh.accessToken, { httpOnly: true, secure: false,sameSite:'none' });
                 req.clientId = idUser;
+                console.log(idUser);
+                
                 console.log("Work at Auto Refresh token expired",refresh.expiresIn);
             }
             next()
